@@ -1,51 +1,53 @@
 import { useState } from "react";
+import Todo from './todo';
 
 export default function TodoApp() {
-    const [title, setTitle] = useState("INPUT");
-    const [todos, setTodos] = useState([]);
+  const [title, setTitle] = useState("INPUT");
+  const [todos, setTodos] = useState([]);
 
-    function handleClick(e) {
-        e.preventDefault();
-        title("Jko");
-    }
+  function handleClick(e) {
+    e.preventDefault();
+    setTitle("Jko");
+  }
 
-    function handleChange(event) {
-        const value = event.target.value;
+  function handleChange(event) {
+    const value = event.target.value;
 
-        setTitle(value);
-    }
+    setTitle(value);
+  }
 
-     handleSubmit(e) {
-        e.preventDefault(); 
+  function handleSubmit(e) {
+    e.preventDefault();
 
-        const newTodo = {
-            id: crypto.randomUUID(), 
-            title: title, 
-            completed: false
-        };
+    const newTodo = {
+      id: crypto.randomUUID(),
+      title: title,
+      completed: false,
+    };
 
-        const temp = [... todos];
-        temp.unshift(newTodo);
+    const temp = [...todos];
+    temp.unshift(newTodo);
 
-        setTodos(temp);
-  
+    setTodos(temp);
+  }
 
-     }
+  return (
+    <div className="todoContainer">
+      <form className="todoCreateForm" onSubmit={handleSubmit}>
+        <input onChange={handleChange} className="todoInput" value={title} />
+        <input
+          onClick={handleSubmit}
+          type="submit"
+          value="Create todo"
+          className="buttonCreate"
+        />
+      </form>
 
-    return (
       <div className="todoContainer">
-        <form Classname="todoCreateForm" onSubmit={handleSubmit}>
-          <input onChange={handleChange} className="todoInput" value={title} />
-          <input
-            onClick={handleClick}
-            type="submit"
-            value="Create todo"
-            className="buttonCreate"
-          />
-
-          {title}
-        </form>
+        {todos.map((item) => (
+          <Todo key={item.id} item={item}></Todo>
+        ))}
       </div>
-    );
-
+    </div>
+  );
 }
