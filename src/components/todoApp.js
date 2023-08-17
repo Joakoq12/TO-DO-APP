@@ -1,14 +1,16 @@
 import { useState } from "react";
 import Todo from './todo';
 
+
+import "../components/todoApp.css"
+
+
+
 export default function TodoApp() {
   const [title, setTitle] = useState("INPUT");
   const [todos, setTodos] = useState([]);
 
-  function handleClick(e) {
-    e.preventDefault();
-    setTitle("Jko");
-  }
+ 
 
   function handleChange(event) {
     const value = event.target.value;
@@ -29,6 +31,8 @@ export default function TodoApp() {
     temp.unshift(newTodo);
 
     setTodos(temp);
+
+    setTitle('');
   }
 
 function handleUpdate(id, value) {
@@ -36,6 +40,14 @@ function handleUpdate(id, value) {
   const item = temp.find(item => item.id === id);
   item.title = value; 
   setTodos(temp);
+
+}
+
+function handleDelete(id) { 
+  const temp = todos.filter(item => item.id !== id); 
+  
+  setTodos(temp)  
+     
 
 }
   
@@ -55,7 +67,7 @@ function handleUpdate(id, value) {
 
       <div className="todoContainer">
         {todos.map((item) => (
-          <Todo key={item.id} item={item} onUpdate={handleUpdate}></Todo>
+          <Todo key={item.id} item={item} onUpdate={handleUpdate} onDelete={handleDelete}></Todo>
         ))}
       </div>
     </div>
